@@ -91,7 +91,8 @@ const getIssueById = async (req: Request, res: Response) => {
 const updateIssue = async (req: Request, res: Response) => {
     try {
         const  id  = req.params.id as string;
-        const result = await issueService.updateIssue(id, req.body);
+        const token = req.cookies.accessToken;
+        const result = await issueService.updateIssue(id,token, req.body);
         if(!result){
             sendResponse(res,{
                 statusCode: 404,
