@@ -64,7 +64,7 @@ const loginUser = async(payload:ILogin) =>{
 
     //todo generate access token
     const accessToken = jwt.sign(jwtPayload, config.jwtAccessSecret,{
-        expiresIn: '1h'
+        expiresIn: '7h'
     });
 
     //todo generate refresh token
@@ -106,7 +106,7 @@ const refreshToken = async(payload:string) =>{
     } as JwtPayload;
     
     const newAccessToken = jwt.sign(jwtPayload, config.jwtAccessSecret, {
-        expiresIn: '5m'
+        expiresIn: '7h'
     });
 
     return { accessToken: newAccessToken };
