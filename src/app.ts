@@ -2,6 +2,7 @@ import express, { type Application, type Request, type Response } from 'express'
 import { authRouter } from './module/Auth/auth.route';
 import { globalErrorHandler } from './middleware/globalErrorHandler';
 import cookieParser from "cookie-parser";
+import { issueRouter } from './module/Issues/issue.route';
 
 const app : Application = express();
 
@@ -15,6 +16,6 @@ app.get('/',(req:Request,res:Response)=>{
 })
 
 app.use('/api/auth',authRouter)
-
+app.use('/api/issues',issueRouter)
 app.use(globalErrorHandler)
 export default app;
