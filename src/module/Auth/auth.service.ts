@@ -40,6 +40,7 @@ const loginUser = async(payload:ILogin) =>{
     const userData = await pool.query(`
         SELECT * FROM users WHERE email = $1
     `,[email]);
+
     const existingUser = userData.rows[0];
     if(!existingUser){
         throw new Error('Email is incorrect');
@@ -70,8 +71,10 @@ const loginUser = async(payload:ILogin) =>{
     const refreshToken = jwt.sign(jwtPayload, config.jwtRefreshSecret,{
         expiresIn: '7d'
     });
-
-    return { accessToken, refreshToken };
+    delete existingUser.password;
+    // console.log(existingUser);
+    // return {accessToken,refreshToken};
+    return { token:{accessToken, refreshToken}, user: existingUser };
 }
 
 const refreshToken = async(payload:string) =>{
