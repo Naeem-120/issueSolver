@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import sendResponse from "../../utility/response";
 import { issueService } from "./issue.service";
+import type { TParameter } from "../../types";
 
 const createIssue = async (req: Request, res: Response) => {
     try {
@@ -37,7 +38,8 @@ const createIssue = async (req: Request, res: Response) => {
 }
 const getIssue = async (req: Request, res: Response) => {
     try {
-        const result = await issueService.getAllIssues();
+        const result = await issueService.getAllIssues(req.query as TParameter);
+       
         if(!result){
             sendResponse(res,{
                 statusCode: 404,

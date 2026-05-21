@@ -1,5 +1,6 @@
 import { config } from "../../config";
 import { pool } from "../../db";
+import type { TParameter } from "../../types";
 import type { IIssue } from "./issue.interface"
 import jwt from "jsonwebtoken";
 const createIssue =async(payload:IIssue,accessToken:string)=>{
@@ -19,9 +20,17 @@ const createIssue =async(payload:IIssue,accessToken:string)=>{
     return result.rows[0];
 }
 
-const getAllIssues = async()=>{
+const getAllIssues = async(payload:TParameter)=>{
+    const { sort = "newest", type, status } = payload;
     const result = await pool.query(`
         SELECT * FROM issues
+        ${
+            type && status ? `WHERE type = '${type}' AND status = '${status}'` 
+            : type ? `WHERE type = '${type}'`
+            : status ? `WHERE status = '${status}'`
+            : ''
+        }
+        order by created_at ${sort === "newest" ? "DESC" : "ASC"}
     `)
     return result.rows;
 }
