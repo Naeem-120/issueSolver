@@ -8,10 +8,14 @@ const createIssue = async (payload: IIssue, accessToken: string) => {
   if (!title || !description || !type) {
     throw new Error("All fields are required");
   }
-  const decodeToken = await jwt.verify(accessToken, config.jwtAccessSecret);
-  if (!decodeToken) {
-    throw new Error("Invalid token");
-  }
+  
+  const decodeToken = await jwt.verify(
+    accessToken, 
+    config.jwtAccessSecret
+  );
+  // if (!decodeToken) {
+  //   throw new Error("Invalid token");
+  // }
   const userId = (decodeToken as any).id;
   const result = await pool.query(
     `
